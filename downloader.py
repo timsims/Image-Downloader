@@ -21,7 +21,21 @@ headers = {
     # 'Connection': 'close',
 }
 
+watermark_domain = [
+    "alamy",
+    "alamyimages",
+    "gettyimages",
+    "istockphoto",
+    "shutterstock"
+]
+
 def download_image(image_url, dst_dir, file_name, timeout=20, proxy_type=None, proxy=None):
+
+    # if image_url contains watermark_domain, skip download
+    if any(domain in image_url for domain in watermark_domain):
+        print("## Skip:  {}  {}".format(file_name, image_url))
+        return
+
     proxies = None
     if proxy_type is not None:
         proxies = {
